@@ -9,7 +9,7 @@ void setup() {
 
 void loop() {
   Serial.print("running");
-  if (c%5 == 0){
+  if (c%6 == 0){
     Serial.print("green");
     if (digitalRead(2) == HIGH){
       digitalWrite(2, LOW);
@@ -17,7 +17,7 @@ void loop() {
       digitalWrite(2, HIGH);
     }
   }
-  if (c%4 == 0){
+  if (c%7 == 0){
     Serial.print("red");
     if (digitalRead(3) == HIGH){
       digitalWrite(3, LOW);
