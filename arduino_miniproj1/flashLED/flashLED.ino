@@ -1,4 +1,5 @@
-void setup() {
+int c;
+oid setup() {
   // put your setup code here, to run once:
  // int delay = 2000;
   pinMode(2, OUTPUT);
