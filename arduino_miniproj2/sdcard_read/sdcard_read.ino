@@ -1,3 +1,5 @@
+// this code works!! 
+
 #include <SD.h>
 void setup()
 {
@@ -24,5 +26,13 @@ void loop()
     out.println(n);
     out.close();
       }
+    /*if (Serial.available() != 0){
+      out.close();
+      while(1){
+        //infinite loop to stop it 
+      }
+    }
+    */
     delay(500);
+    
 }
