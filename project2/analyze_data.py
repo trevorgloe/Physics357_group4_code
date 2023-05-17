@@ -3,13 +3,33 @@
 # Data is stored in csv file called DATA.TXT - contains accelerometer data in 2 dimensions (x and y) and angular rates in z
 # 
 # 
+# The radius from the center of chair to the gyroscope is 15.5 cm
+# The accelerometer x direction points in the phi_hat direction, and y points radially outward
+#
+# the gyroscope sensativity is set at 250 deg/s total
+# so the actual rate in terms of the gryo value is rate = 250/32750 * gryo_val
+#
+# the accelerometer sensativity is set at 2g total
+# so the actual acceleration read in terms of the gryo is 2*9.81/32750 * accel_val
+
+
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
+## functions for mapping the read values into real numbers
+def map_gryo(val):
+    degsec =  250/32750 * val
+    return degsec*np.pi/180
+
+def map_accel(val):
+    return 2*9.81/32750 * val
+
+
 # read data from csv
-data = pd.read_csv('Data/run_01.TXT')
+data = pd.read_csv('Data/run_15.TXT')
 print(data)
 
 # extract data into numpy arrays
@@ -19,10 +39,18 @@ aystr = data['AcY'].to_numpy()
 gzstr = data['GyZ'].to_numpy()
 
 # truncate the data to avoid weird stuff and cast as floats
-t = tstr[2:].astype(float)
-ax = axstr[2:].astype(float)
-ay = aystr[2:].astype(float)
-gz = gzstr[2:].astype(float)
+trunkval=1600
+tread = tstr[trunkval:].astype(float)
+axread = axstr[trunkval:].astype(float)
+ayread = aystr[trunkval:].astype(float)
+gzread = gzstr[trunkval:].astype(float)
+
+# convert the values to physical numbers
+t = (tread - tread[0])/1e3
+ax = map_accel(axread)
+ay = map_accel(ayread)
+gz = map_gryo(gzread)
+
 print(ax)
 
 # integrate the gryo data just for fun
@@ -49,5 +77,19 @@ fig_ang = plt.figure()
 plt.scatter(t,int_ang,color='b',s=2)
 plt.xlabel('Time (ms)')
 plt.ylabel('Angle integrated from gyro data')
+
+## compute derivative of gyroscope data
+deriv_gryo = np.gradient(gz,t)
+
+fig_deriv = plt.figure()
+plt.scatter(t,np.abs(deriv_gryo),color='g',s=2)
+plt.xlabel('Time (ms)')
+plt.ylabel('Differentiated Gryscope (Angular Acceleration)')
+
+## plot acceleration vs. rate
+force_comp1_fig = plt.figure()
+plt.scatter(gz,np.abs(deriv_gryo),color='r',s=2)
+plt.xlabel('Angular rate')
+plt.ylabel('Angular acceleration')
 
 plt.show()
