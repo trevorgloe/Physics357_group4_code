@@ -38,7 +38,7 @@ void loop()
 
   //int switch;
 
-  Serial.println(digitalRead(7));
+  //Serial.println(digitalRead(7));
   
   // if switch is turned, read data. the switch value is stored in the state of pin 7
   if (digitalRead(7) == HIGH) {
@@ -49,7 +49,7 @@ void loop()
 
     t = millis();
 
-    Serial.println(t);
+    //Serial.println(t);
 
     //Serial.print(",");
 
@@ -74,9 +74,9 @@ void loop()
       GyX = Wire.read() << 8 | Wire.read(); // 0x43 (GYRO_XOUT_H) & 0x44 (GYRO_XOUT_L)
       GyY = Wire.read() << 8 | Wire.read(); // 0x45 (GYRO_YOUT_H) & 0x46 (GYRO_YOUT_L)
       GyZ = Wire.read() << 8 | Wire.read(); // 0x47 (GYRO_ZOUT_H) & 0x48 (GYRO_ZOUT_L)
-      Serial.print("AcX = "); Serial.print(AcX);
-      Serial.print(" | AcY = "); Serial.print(AcY);
-      Serial.print(" | GyZ = "); Serial.println(GyZ);
+      //Serial.print("AcX = "); Serial.print(AcX);
+      //Serial.print(" | AcY = "); Serial.print(AcY);
+      //Serial.print(" | GyZ = "); Serial.println(GyZ);
 
       out.print(t);
 

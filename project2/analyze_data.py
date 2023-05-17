@@ -9,7 +9,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # read data from csv
-data = pd.read_csv('DATA.TXT')
+data = pd.read_csv('Data/run_01.TXT')
 print(data)
 
 # extract data into numpy arrays
@@ -33,20 +33,20 @@ for idx in range(len(t)):
 
 fig_accel = plt.figure()
 
-plt.scatter(t,ax,color='r',label='x-axis')
-plt.scatter(t,ay,color='b',label='y-axis')
+plt.scatter(t,ax,color='r',label='x-axis',s=2)
+plt.scatter(t,ay,color='b',label='y-axis',s=2)
 plt.xlabel('Time (ms)')
 plt.ylabel('Acceleration')
 plt.legend()
-plt.xticks(np.arange(np.min(t),np.max(t),5000))
+#plt.xticks(np.arange(np.min(t),np.max(t),5000))
 
 fig_gyr = plt.figure()
-plt.scatter(t,gz,color='r')
+plt.scatter(t,gz,color='r',s=2)
 plt.xlabel('Time (ms)')
 plt.ylabel('Angular rate')
 
 fig_ang = plt.figure()
-plt.scatter(t,int_ang,color='b')
+plt.scatter(t,int_ang,color='b',s=2)
 plt.xlabel('Time (ms)')
 plt.ylabel('Angle integrated from gyro data')
 
