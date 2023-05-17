@@ -1,0 +1,17 @@
+NOTES
+Runs1-15: no weight added 
+Defaut ccw 
+r_gyro = 15.5 cm from chair spin axis
+Big weight=1435g	radius = 2.5cm
+Little weight = 1000g	radius = 2.5cm
+
+Setup0: no weight
+Setup1: big weight in center of chair (treat as disk)
+Setup2: big weight center, little weight at r = 16 cm
+Setup3: big weight center, little weight at r = 10 cm
+Setup4: big weight center, little weight at r = 18.5 cm
+Setup5: big weight at r = 16 cm
+Setup6: big weight at r = 10 cm
+Setup7: big weight at r = 19 cm
+Setup8: big weight at r = 19 cm little weight at r = 20 cm
+Setup9: big weight at r = 10 cm little weight at r = 16 cm
