@@ -39,7 +39,7 @@ aystr = data['AcY'].to_numpy()
 gzstr = data['GyZ'].to_numpy()
 
 # truncate the data to avoid weird stuff and cast as floats
-trunkval=1600
+trunkval=1630
 tread = tstr[trunkval:].astype(float)
 axread = axstr[trunkval:].astype(float)
 ayread = aystr[trunkval:].astype(float)
