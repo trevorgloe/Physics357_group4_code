@@ -14,6 +14,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+from scipy.optimize import curve_fit
 
 
 ## functions for mapping the read values into real numbers
@@ -48,9 +49,15 @@ r = 0.155 # in m
 # truncation values for all files
 trunk = [975,2,90,2,415,1510,2,1372,318,2,282,884,97,65,2395]
 
-for idx,file in enumerate(datafiles):
+# function for fitting
+def power_law(x,a,b):
+    # a is the scale factor out front, b is the power
 
-    print(idx)
+    return a*pow(x,b)
+
+for j,file in enumerate(datafiles):
+
+    print(j)
     print(file)
 
     # get the data
@@ -65,7 +72,7 @@ for idx,file in enumerate(datafiles):
     gzstr = data['GyZ'].to_numpy()
 
     # truncate the data to avoid weird stuff and cast as floats
-    trunkval=trunk[idx]
+    trunkval=trunk[j]
 
     ## find point of maximum omega
 
@@ -93,6 +100,7 @@ for idx,file in enumerate(datafiles):
     # if the gyroscope velocity is negative then make it all negative
     if gz[1]<0:
         gz = -gz
+        ax = -ax
 
     # print(ax)
 
@@ -103,7 +111,7 @@ for idx,file in enumerate(datafiles):
 
 
     # compute centripital acceleration
-    a_c = r*gz  # r * omega^2
+    a_c = r*gz**2  # r * omega^2
 
     # the centripital acceleration points in the x direction so subtract it off
     a_angx = (ax)/r
@@ -121,19 +129,43 @@ for idx,file in enumerate(datafiles):
 
     # plt.legend()
 
-    # plot the accerlation in x vs. 
-    # x acceleration is in the phi-hat direction
-    plt.figure()
-    plt.scatter(gz,a_angx,color='b',s=2)
-    plt.xlabel('$\omega$ [rad/s]')
-    plt.ylabel(r'$\alpha$ [rad/s^2]')
 
     # plot the gz
     plt.figure()
     plt.scatter(t,gz,color='b',s=2)
 
-    
+    # get rid of nans in the data
+    print(len(np.isnan(gz)))
+    print(len(a_angx))
+    a_angx = a_angx[~np.isnan(gz)]
+    gz = gz[~np.isnan(gz)]
+    # print(gz)
+    # print(a_angx)
 
+    # get rid of initial small omegas
+    a_angx = a_angx[gz>0.08]
+    gz = gz[gz>0.08]
+
+    # fit the curve
+    popt, pcov = curve_fit(power_law,gz,a_angx)
+
+    print(popt)
+    # plot the accerlation in x vs. 
+    # x acceleration is in the phi-hat direction
+    plt.figure()
+    plt.scatter(gz,a_angx,color='b',s=2,label='data')
+    plt.scatter(np.linspace(np.nanmin(gz),np.nanmax(gz)),power_law(np.linspace(np.nanmin(gz),np.nanmax(gz)),popt[0],popt[1]),label='fit')
+    plt.xlabel('$\omega$ [rad/s]')
+    plt.ylabel(r'$\alpha$ [rad/s^2]')
+
+    all_scales[j] = popt[0]
+    all_powers[j] = popt[1]
+
+
+
+plt.figure()
+plt.scatter(np.arange(0,len(all_powers)),all_powers)
+plt.ylabel('fitted powers')
 
 plt.show()
 
