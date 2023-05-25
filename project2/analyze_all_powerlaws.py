@@ -164,8 +164,30 @@ for j,file in enumerate(datafiles):
 
 
 plt.figure()
-plt.scatter(np.arange(0,len(all_powers)),all_powers)
+plt.scatter(np.arange(0,len(all_powers)),all_powers,color='r')
+good_pow = np.copy(all_powers)
+good_pow[2] = 'nan'
+good_pow[12] = 'nan'
+good_pow[13] = 'nan'
+plt.scatter(np.arange(0,len(all_powers)),good_pow,color='b')
 plt.ylabel('fitted powers')
+avg_pow = np.nanmean(good_pow)
+print('Average exponent: '+str(avg_pow))
+plt.plot([0,len(all_powers)],[avg_pow,avg_pow],color='g')
+
+
+plt.figure()
+plt.scatter(np.arange(0,len(all_scales)),all_scales,color='r')
+plt.ylabel('fitted scale factors')
+good_scale = np.copy(all_scales)
+good_scale[6] = 'nan'
+good_scale[8] = 'nan'
+good_scale[14] = 'nan'
+plt.scatter(np.arange(0,len(all_scales)),good_scale,color='b')
+# plt.ylabel('fitted powers')
+avg_scale = np.nanmean(good_scale)
+print('Average scale-factor: '+str(avg_scale))
+plt.plot([0,len(all_scales)],[avg_scale,avg_scale],color='g')
 
 plt.show()
 

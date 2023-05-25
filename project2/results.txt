@@ -1,0 +1,7 @@
+From analysis of accel vs. vel
+Average exponent: 0.3957217642626398
+Average scale-factor: 0.19069107353619316
+
+From analysis of I at omega=1.9:
+Fitted tau: 0.5531160477660075
+Fitted I: 0.09164386076324303
